@@ -1,0 +1,49 @@
+Una API REST para una página de blog debería proporcionar funciones para interactuar con los principales elementos de la página, como usuarios, posts, categorías y comentarios.
+Aquí hay algunas funciones comunes que podrían ser necesarias:
+
+---------------------------------------------------------------------------------------------------------------------------------------------
+Usuarios:
+Registro de usuario
+Autenticación de usuario (inicio de sesión)
+Actualización de perfil de usuario
+Eliminación de usuario (para administradores)
+
+---------------------------------------------------------------------------------------------------------------------------------------------
+Posts:
+Obtener todos los posts
+Obtener un post específico por ID
+Crear un nuevo post
+Actualizar un post existente
+Eliminar un post existente
+
+---------------------------------------------------------------------------------------------------------------------------------------------
+Categorías:
+Obtener todas las categorías
+Obtener una categoría específica por ID
+Crear una nueva categoría
+Actualizar una categoría existente
+Eliminar una categoría existente
+
+---------------------------------------------------------------------------------------------------------------------------------------------
+Comentarios:
+Obtener todos los comentarios de un post específico
+Crear un nuevo comentario en un post
+Actualizar un comentario existente
+Eliminar un comentario existente
+
+---------------------------------------------------------------------------------------------------------------------------------------------
+Búsqueda:
+Buscar posts por título, contenido o etiquetas
+Filtrar posts por categoría
+
+---------------------------------------------------------------------------------------------------------------------------------------------
+Autenticación y autorización:
+Verificar el token de autenticación para cada solicitud protegida
+Autorizar las operaciones basadas en el rol del usuario (por ejemplo, un usuario normal solo puede editar sus propios posts, mientras que un administrador puede editar cualquier post)
+
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+
+Estas son algunas de las funciones básicas que una API REST para una página de blog podría necesitar. 
+Dependiendo de los requisitos específicos de tu aplicación, es posible que desees agregar funcionalidades adicionales o personalizadas. 
+Es importante diseñar la API de manera que sea intuitiva, eficiente y segura para los usuarios y desarrolladores que la utilicen.
