@@ -1,15 +1,14 @@
 from fastapi import FastAPI
-from routers.querys import consultar_usuarios
+from routers import users
+
+
 
 app = FastAPI()
 
+
+app.include_router(users.router)
 
 @app.get("/")
 async def root():
     return {"message": "Bienvenido a tu BLOG"}
 
-
-
-@app.get("/users")
-async def get_users():
-    return consultar_usuarios()

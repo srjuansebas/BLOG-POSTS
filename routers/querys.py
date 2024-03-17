@@ -58,3 +58,68 @@ def consultar_comentarios():
 
     return comments_db
 
+
+
+# ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+# iniciando a crear las operaciones para trabajar con los usuarios en la base de datos
+
+
+
+def search_user_id(id: int):
+
+    users = filter(lambda user: user.id == id, users_db)
+
+    try:
+        return users[0]
+    except:
+        return {"error": "No se ha encontrado el usuario"}
+    
+
+def search_user_name(username: str):
+    users = filter(lambda user: user.username == username, users_db)
+
+    try:
+        return users[0]
+    except:
+        return {"error": "No se ha encontrado el usuario"}
+    
+# --------------------------------------------------------------------------------------------------------------------------------------------
+
+def crear_usuario(username: str, email: str, password: str):
+
+    try:
+        cursor.execute(f"INSERT INTO users (nombre_usuario, correo, contraseña) VALUES ({username}, {email}, {password})")
+        conexion.commit()
+    except:
+        return {"error": "No se pudo crear el nuevo usuario"}
+    
+# -------------------------------------------------------------------------------------------------------------------------------------------
+
+def actualizar_usuario(id: int, username: str, email: str, password: str, role: str):
+
+    try:
+        cursor.execute(f"UPDATE users SET nombre_usuario='{username}', correo='{email}', contraseña='{password}', rol='{role}' WHERE id={id}")
+        conexion.commit()
+    except:
+        return {"error": "No se pudo actualizar el usuario"}
+    
+
+# ----------------------------------------------------------------------------------------------------------------------------------------
+
+def eliminar_usuario(id: int):
+    
+    try:
+        cursor.execute(f"DELETE FROM users WHERE id={id}")
+        conexion.commit()
+        consultar_usuarios()
+    except:
+        return {"error": "No se pudo eliminar el usuario"}
+    
+
+
+# ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+# definiendo las operaciones para trabajar con los posts en la base de datos
