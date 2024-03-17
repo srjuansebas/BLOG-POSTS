@@ -113,7 +113,6 @@ def eliminar_usuario(id: int):
     try:
         cursor.execute(f"DELETE FROM users WHERE id={id}")
         conexion.commit()
-        consultar_usuarios()
     except:
         return {"error": "No se pudo eliminar el usuario"}
     
@@ -123,3 +122,30 @@ def eliminar_usuario(id: int):
 
 
 # definiendo las operaciones para trabajar con los posts en la base de datos
+    
+
+def crear_post(title: str, content: str, category_id: int, tag: str, id_user: int):
+
+    try:
+        cursor.execute(f"INSERT INTO posts (titulo, contenido, fecha, hora, id_categoria, etiqueta, id_usuario) VALUES ('{title}', '{content}', curdate(), date_format(now(), '%H:%i:%S'), {category_id}, '{tag}', {id_user})")
+        conexion.commit()
+    except:
+        return {"error": "No se pudo postear"}
+    
+
+def actualizar_post(id: int, title: str, content: str, category_id: int, tag: str, id_user: int):
+
+    try:
+        cursor.execute(f"UPDATE posts SET title='{title}', content='{content}', id_categoria='{category_id}', etiqueta='{tag}' WHERE id={id} and id_usuario={id_user}")
+        conexion.commit()
+    except:
+        return {"error": "No se pudo actualizar el post"}
+    
+
+def eliminar_post(id: int):
+
+    try:
+        cursor.execute(f"DELETE FROM posts WHERE id={id}")
+        conexion.commit()
+    except:
+        return {"error": "No se pudo eliminar el post"}
