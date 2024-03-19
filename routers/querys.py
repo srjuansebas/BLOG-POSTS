@@ -149,3 +149,39 @@ def eliminar_post(id: int):
         conexion.commit()
     except:
         return {"error": "No se pudo eliminar el post"}
+    
+
+
+# ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+# definiendo las operaciones para trabajar con los comentarios en la base de datos
+
+
+def crear_comentario(content: str, id_post: int, id_user: int):
+
+    try:
+        cursor.execute(f"INSERT INTO comments (contenido, id_post, id_usuario, fecha) VALUES ('{content}', {id_post}, {id_user}, curdate())")
+        conexion.commit()
+    except:
+        return {"error": "No se pudo hacer el comentario"}
+    
+
+
+def actualizar_comentario(id: int, content: str, id_post: int, id_user: int):
+
+    try:
+        cursor.execute(f"UPDATE comments SET contenido='{content}' WHERE id={id} and id_user={id_user} and id_post={id_post}")
+        conexion.commit()
+    except:
+        return {"error": "No se pudo actualizar el comentario"}
+
+
+
+def eliminar_comentario(id: int):
+
+    try:
+        cursor.execute(f"DELETE FROM commets WHERE id={id}")
+        conexion.commit()
+    except:
+        return {"error": "No se pudo eliminar el comentario"}
