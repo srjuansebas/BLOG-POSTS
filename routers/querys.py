@@ -72,7 +72,7 @@ def search_user_id(id: int):
     users = filter(lambda user: user.id == id, users_db)
 
     try:
-        return users[0]
+        return list(users)[0]
     except:
         return {"error": "No se ha encontrado el usuario"}
     
@@ -81,7 +81,7 @@ def search_user_name(username: str):
     users = filter(lambda user: user.username == username, users_db)
 
     try:
-        return users[0]
+        return list(users)[0]
     except:
         return {"error": "No se ha encontrado el usuario"}
     
@@ -90,14 +90,14 @@ def search_user_name(username: str):
 def crear_usuario(username: str, email: str, password: str):
 
     try:
-        cursor.execute(f"INSERT INTO users (nombre_usuario, correo, contraseña) VALUES ({username}, {email}, {password})")
+        cursor.execute(f"INSERT INTO users (nombre_usuario, correo, contraseña) VALUES ('{username}', '{email}', '{password}')")
         conexion.commit()
     except:
         return {"error": "No se pudo crear el nuevo usuario"}
     
 # -------------------------------------------------------------------------------------------------------------------------------------------
 
-def actualizar_usuario(id: int, username: str, email: str, password: str, role: str):
+def admin_actualizar_usuario(id: int, username: str, email: str, password: str, role: str):
 
     try:
         cursor.execute(f"UPDATE users SET nombre_usuario='{username}', correo='{email}', contraseña='{password}', rol='{role}' WHERE id={id}")
@@ -106,6 +106,14 @@ def actualizar_usuario(id: int, username: str, email: str, password: str, role: 
         return {"error": "No se pudo actualizar el usuario"}
     
 
+def actualizar_usuario(id: int, username: str, email: str, password: str):
+
+    try:
+        cursor.execute(f"UPDATE users SET nombre_usuario='{username}', correo='{email}', contraseña='{password}' WHERE id={id}")
+        conexion.commit()
+    except:
+        return {"error": "No se pudo actualizar el usuario"}
+    
 # ----------------------------------------------------------------------------------------------------------------------------------------
 
 def eliminar_usuario(id: int):
