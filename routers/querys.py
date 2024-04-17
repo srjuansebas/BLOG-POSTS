@@ -43,7 +43,7 @@ def consultar_posts():
     cursor.execute("SELECT * FROM posts")
 
     for id, title, content, date, hour, id_category, tag, id_user in  cursor.fetchall():
-        posts_db.append(Post_db(id=id, title=title, content=content, date=date, hour=hour, id_category=id_category, tag=tag, id_user=id_user))
+        posts_db.append(Post_db(id=id, title=title, content=content, date=str(date), hour=str(hour), id_category=id_category, tag=tag, id_user=id_user))
 
     return posts_db
 
@@ -128,6 +128,27 @@ def eliminar_usuario(id: int):
 
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+
+
+
+def search_post_id(id: int):
+
+    posts = filter(lambda post: post.id == id, posts_db)
+
+    try:
+        return list(posts)[0]
+    except:
+        return {"error": "No se ha encontrado el post"}
+    
+
+def search_post_title(title: str):
+
+    posts = filter(lambda post: post.title == title, posts_db)
+
+    try:
+        return list(posts)[0]
+    except:
+        return {"error": "No se ha encontrado el post"}
 
 # definiendo las operaciones para trabajar con los posts en la base de datos
     

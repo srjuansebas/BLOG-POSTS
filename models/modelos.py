@@ -23,7 +23,9 @@ class User_db(BaseModel):
 class Post(BaseModel):
     title: str
     content: Optional[str] = "Sin contenido..."
+    id_category: int
     tag: str
+    
 
 
 class Post_db(BaseModel):
