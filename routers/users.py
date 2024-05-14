@@ -1,43 +1,23 @@
-from fastapi import APIRouter, HTTPException, Depends, Response, Cookie, Request
-from typing import Annotated
+from fastapi import APIRouter, HTTPException, Depends
 from models.modelos import User, User_db
 from routers.querys import search_user_name, search_user_id
 from routers.querys import crear_usuario, consultar_usuarios, actualizar_usuario, admin_actualizar_usuario, eliminar_usuario
-from routers.login import current_user
-from fastapi.responses import RedirectResponse
-from jose import jwt 
+from routers.login import current_user_id
 
 router = APIRouter()
 
-
-ALGORITHM = "HS256"
-
-# la duracion en minutos del token de autenticación
-ACCESS_TOKEN_DURATION = 5
-
-# la clave secreta para realizar la encriptación
-SECRET = "8bc25bce94c99244fe2e12aa8d84569e145c26b040111b92efb63e57a7b2d7b6"
 
 @router.get("/users")
 async def get_users():
     return consultar_usuarios()
 
 @router.get("/users/me")
-async def get_current_user(user: User_db = Depends(current_user)):
+async def get_current_user(id_user: int = Depends(current_user_id)):
     
-    return user 
+    saved_user = search_user_id(id_user)
 
-    # if request.cookies.get("UserToken") is None:
-    #     raise HTTPException(status_code=400, detail="Error de autenticación")
-    # else:
+    return saved_user 
 
-    #     cookie_data = request.cookies.get("UserToken")
-    #     token_decoded = jwt.decode(cookie_data, SECRET, algorithms=ALGORITHM)
-    #     id_user = token_decoded.get("id_user")
-
-    #     saved_user = search_user_id(id_user)
-        
-    #     return saved_user
 
 @router.post("/users")
 async def create_user(user: User):
@@ -51,8 +31,11 @@ async def create_user(user: User):
     except:
         raise HTTPException(status_code=304, detail="El usuario no pudo ser registrado")
 
+
 @router.put("/users")
-async def update_user(user: User_db, current_user: User_db = Depends(current_user)):
+async def update_user(user: User_db, current_user_id: int = Depends(current_user_id)):
+
+    current_user = search_user_id(current_user_id)
 
     if not type(search_user_id(user.id)) == User_db:
         raise HTTPException(status_code=400, detail="El usuario no ha sido registrado")
@@ -70,7 +53,9 @@ async def update_user(user: User_db, current_user: User_db = Depends(current_use
 
 
 @router.delete("/users/{id}")
-async def delete_user(id: int, current_user: User_db = Depends(current_user)):
+async def delete_user(id: int, current_user_id: int = Depends(current_user_id)):
+
+    current_user = search_user_id(current_user_id)
 
     if not type(search_user_id(id)) == User_db:
         raise HTTPException(status_code=400, detail="El usuario no está registrado")
@@ -78,7 +63,7 @@ async def delete_user(id: int, current_user: User_db = Depends(current_user)):
     try:
         if current_user.role == "administrador":
             eliminar_usuario(id)
-            return RedirectResponse("/", status_code=302)
+            return consultar_usuarios()
         else:
             raise HTTPException(status_code=400, detail="Usted no cuenta con permisos para realizar esta acción")
     except:

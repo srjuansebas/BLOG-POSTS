@@ -1,5 +1,5 @@
-from models.modelos import User, User_db, Post, Post_db, Post_show, Comment, Comment_db
-import mysql.connector
+from models.modelos import User_db, Post_db, Comment_db
+import mysql.connector # type: ignore # type: ignorer
 
 
 # Instanciando la conexion a la base de datos
@@ -22,6 +22,8 @@ users_db = []
 posts_db = []
 
 comments_db = []
+
+posts_show_db = []
 
 
 # creando las funciones para obtener los datos
@@ -54,9 +56,11 @@ def consultar_comentarios():
     cursor.execute("SELECT * FROM comments")
 
     for id, content, id_post, id_user, date in cursor.fetchall():
-        comments_db.append(Comment_db(id=id, content=content, id_post=id_post, id_user=id_user, date=date))
+        comments_db.append(Comment_db(id=id, content=content, id_post=id_post, id_user=id_user, date=str(date)))
 
     return comments_db
+
+
 
 
 
@@ -149,6 +153,15 @@ def search_post_title(title: str):
         return list(posts)[0]
     except:
         return {"error": "No se ha encontrado el post"}
+    
+def search_post_user(id_user: int):
+
+    posts = filter(lambda post: post.id_user == id_user, posts_db)
+
+    try:
+        return list(posts)
+    except:
+        return {"error": "El usuario no tiene posts agregados"}
 
 # definiendo las operaciones para trabajar con los posts en la base de datos
     
@@ -164,17 +177,18 @@ def crear_post(title: str, content: str, category_id: int, tag: str, id_user: in
 
 def actualizar_post(id: int, title: str, content: str, category_id: int, tag: str, id_user: int):
 
+
     try:
-        cursor.execute(f"UPDATE posts SET title='{title}', content='{content}', id_categoria='{category_id}', etiqueta='{tag}' WHERE id={id} and id_usuario={id_user}")
+        cursor.execute(f"UPDATE posts SET titulo='{title}', contenido='{content}', fecha=curdate(), hora=date_format(now(), '%H:%i:%S'),  id_categoria='{category_id}', etiqueta='{tag}' WHERE id={id} and id_usuario={id_user}")
         conexion.commit()
     except:
         return {"error": "No se pudo actualizar el post"}
     
 
-def eliminar_post(id: int):
+def eliminar_post(id: int, id_user: int):
 
     try:
-        cursor.execute(f"DELETE FROM posts WHERE id={id}")
+        cursor.execute(f"DELETE FROM posts WHERE id={id} and id_usuario={id_user}")
         conexion.commit()
     except:
         return {"error": "No se pudo eliminar el post"}
@@ -185,6 +199,31 @@ def eliminar_post(id: int):
 
 
 # definiendo las operaciones para trabajar con los comentarios en la base de datos
+
+
+def search_comment_post(id_post):
+    consultar_comentarios()
+
+    comments = filter(lambda comment: comment.id_post == id_post, comments_db)
+
+    try:
+        return list(comments)
+    except:
+        return {"error": "No se han encontrado cometarios"}
+    
+
+
+
+def search_comment_id(id: int):
+
+    comments = filter(lambda comment: comment.id == id, comments_db)
+
+    try:
+        return list(comments)[0]
+    except:
+        return {"error": "No se ha encontrado el cometario"}
+    
+
 
 
 def crear_comentario(content: str, id_post: int, id_user: int):
@@ -200,7 +239,7 @@ def crear_comentario(content: str, id_post: int, id_user: int):
 def actualizar_comentario(id: int, content: str, id_post: int, id_user: int):
 
     try:
-        cursor.execute(f"UPDATE comments SET contenido='{content}' WHERE id={id} and id_user={id_user} and id_post={id_post}")
+        cursor.execute(f"UPDATE comments SET contenido='{content}', fecha=curdate() WHERE id={id} and id_user={id_user} and id_post={id_post}")
         conexion.commit()
     except:
         return {"error": "No se pudo actualizar el comentario"}

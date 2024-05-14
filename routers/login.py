@@ -1,9 +1,9 @@
 from fastapi import APIRouter, HTTPException, Depends, status, Response, Request
-from jose import jwt, JWTError
+from jose import jwt
 from passlib.context import CryptContext
 from datetime import datetime, timedelta, timezone
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
-from routers.querys import search_user_name, search_user_id
+from routers.querys import search_user_name, search_user_id, consultar_usuarios
 from models.modelos import User_db
 
 
@@ -22,7 +22,7 @@ crypt = CryptContext(schemes=["bcrypt"])
 ALGORITHM = "HS256"
 
 # la duracion en minutos del token de autenticación
-ACCESS_TOKEN_DURATION = 5
+ACCESS_TOKEN_DURATION = 15
 
 # la clave secreta para realizar la encriptación
 SECRET = "8bc25bce94c99244fe2e12aa8d84569e145c26b040111b92efb63e57a7b2d7b6"
@@ -32,6 +32,7 @@ SECRET = "8bc25bce94c99244fe2e12aa8d84569e145c26b040111b92efb63e57a7b2d7b6"
 
 @router.post("/login")
 async def login(response: Response, form: OAuth2PasswordRequestForm = Depends()):
+    consultar_usuarios()
 
     saved_user = search_user_name(form.username)
 
@@ -54,13 +55,14 @@ async def login(response: Response, form: OAuth2PasswordRequestForm = Depends())
 
     try:
         response.set_cookie(key="UserToken", value=token_encoded, httponly=True, expires=exp)
-        return {"access_token": token_encoded, "token_type": "bearer"}
+        # return {"access_token": token_encoded, "token_type": "bearer"}
+        return {"message": "usuario autenticado correctamente"}
     except:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Proceso de inicio de sesion fallido")
     
 
 
-async def current_user(request: Request):
+async def current_user_id(request: Request):
     
 
     if request.cookies.get("UserToken") is None:
@@ -71,7 +73,7 @@ async def current_user(request: Request):
         token_decoded = jwt.decode(cookie_data, SECRET, algorithms=ALGORITHM)
         id_user = token_decoded.get("id_user")
 
-        saved_user = search_user_id(id_user)
         
-        return saved_user
+        
+        return id_user
 

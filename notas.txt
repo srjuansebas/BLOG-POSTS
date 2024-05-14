@@ -3,43 +3,31 @@ Aquí hay algunas funciones comunes que podrían ser necesarias:
 
 ---------------------------------------------------------------------------------------------------------------------------------------------
 Usuarios:
-Registro de usuario
-Autenticación de usuario (inicio de sesión)
-Actualización de perfil de usuario
-Eliminación de usuario (para administradores)
+Registro de usuario ✔
+Autenticación de usuario (inicio de sesión) ✔
+Actualización de perfil de usuario ✔
+Eliminación de usuario (para administradores) ✔
 
 ---------------------------------------------------------------------------------------------------------------------------------------------
 Posts:
-Obtener todos los posts
-Obtener un post específico por ID
-Crear un nuevo post
-Actualizar un post existente
-Eliminar un post existente
-
----------------------------------------------------------------------------------------------------------------------------------------------
-Categorías:
-Obtener todas las categorías
-Obtener una categoría específica por ID
-Crear una nueva categoría
-Actualizar una categoría existente
-Eliminar una categoría existente
+Obtener todos los posts ✔
+Obtener un post específico por ID ✔
+Crear un nuevo post ✔
+Actualizar un post existente ✔
+Eliminar un post existente ✔
 
 ---------------------------------------------------------------------------------------------------------------------------------------------
 Comentarios:
-Obtener todos los comentarios de un post específico
-Crear un nuevo comentario en un post
-Actualizar un comentario existente
-Eliminar un comentario existente
-
----------------------------------------------------------------------------------------------------------------------------------------------
-Búsqueda:
-Buscar posts por título, contenido o etiquetas
-Filtrar posts por categoría
+Obtener todos los comentarios de un post específico ✔
+Crear un nuevo comentario en un post ✔
+Actualizar un comentario existente ✔
+Eliminar un comentario existente ✔
 
 ---------------------------------------------------------------------------------------------------------------------------------------------
 Autenticación y autorización:
-Verificar el token de autenticación para cada solicitud protegida
-Autorizar las operaciones basadas en el rol del usuario (por ejemplo, un usuario normal solo puede editar sus propios posts, mientras que un administrador puede editar cualquier post)
+Verificar el token de autenticación para cada solicitud protegida ✔
+Autorizar las operaciones basadas en el rol del usuario ✔
+(por ejemplo, un usuario normal solo puede editar sus propios posts, mientras que un administrador puede editar cualquier post) ✔
 
 ---------------------------------------------------------------------------------------------------------------------------------------------
 
