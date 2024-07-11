@@ -32,6 +32,7 @@ async def get_posts(num_page: int):
 
 @router.get("/posts/me")
 async def get_posts(id_current_user: int = Depends(current_user_id)):
+    consultar_posts()
 
     posts_db = search_post_user(id_current_user)
 

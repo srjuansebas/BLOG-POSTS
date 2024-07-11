@@ -11,12 +11,12 @@ router = APIRouter()
 async def get_users():
     return consultar_usuarios()
 
-@router.get("/users/me")
-async def get_current_user(id_user: int = Depends(current_user_id)):
+# @router.get("/users/me")
+# async def get_current_user(id_user: int = Depends(current_user_id)):
     
-    saved_user = search_user_id(id_user)
+#     saved_user = search_user_id(id_user)
 
-    return saved_user 
+#     return saved_user 
 
 
 @router.post("/users")
